@@ -1,0 +1,19 @@
+{
+    "name": "fixolab/wp-database-crud-operations",
+    "description": "Displays the WordPress database CRUD operations.",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "autoload": {
+        "psr-4": {
+            "Fixolab\\WpDatabaseCrudOperations\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sakhawat9",
+            "email": "sakhawathossain7969@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

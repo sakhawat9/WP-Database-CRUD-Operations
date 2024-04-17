@@ -1,5 +1,8 @@
 <?php
-class WP_Database_CRUD_Operations
+
+namespace Fixolab\WpDatabaseCrudOperations;
+
+class Admin
 {
     private $table_name;
     private $dbv = '1.0';
@@ -7,7 +10,7 @@ class WP_Database_CRUD_Operations
     /**
      * Constructor
      */
-    public function __construct()
+    function __construct()
     {
         global $wpdb;
         // Set table name with prefix
@@ -29,7 +32,7 @@ class WP_Database_CRUD_Operations
     /**
      * Add admin menu
      */
-    public function add_admin_menu()
+    function add_admin_menu()
     {
         add_menu_page(
             'WP Database CRUD Operations',
@@ -39,75 +42,59 @@ class WP_Database_CRUD_Operations
             [$this, 'admin_page'],
             'dashicons-admin-generic'
         );
+
+        // Add sub-menu for adding new data
+        add_submenu_page(
+            'wp-database-crud-operations', // parent slug
+            'Add New Data', // page title
+            'Add New Data', // menu title
+            'manage_options', // capability
+            'wp-database-crud-operations-add', // menu slug
+            [$this, 'add_new_data_page'] // callback function to display the page content
+        );
     }
 
     /**
      * Admin page content
      */
-    public function admin_page()
+    function admin_page()
     {
         global $wpdb;
         $this->handle_actions(); // Handle form submissions
 
-        // Display add new data form
-        $this->display_add_new_form();
-
         // Get data from database
         $results = $wpdb->get_results("SELECT * FROM {$this->table_name}");
 
-        // Output admin page
+        // Add New Data button
         echo '<div class="wrap">';
-        echo '<h2>' . esc_html__('WP Database CRUD Operations', 'wp-database-crud-operations') . '</h2>';
-        echo '<p>' . esc_html__('This is a custom admin page for WP Database CRUD Operations plugin.', 'wp-database-crud-operations') . '</p>';
-
-        // Display data in a table
-        echo '<table class="wp-list-table widefat fixed striped">';
-        echo '<thead>';
-        echo '<tr>';
-        echo '<th>' . esc_html__('ID', 'wp-database-crud-operations') . '</th>';
-        echo '<th>' . esc_html__('Name', 'wp-database-crud-operations') . '</th>';
-        echo '<th>' . esc_html__('Email', 'wp-database-crud-operations') . '</th>';
-        echo '<th>' . esc_html__('Actions', 'wp-database-crud-operations') . '</th>';
-        echo '</tr>';
-        echo '</thead>';
-        echo '<tbody>';
-        foreach ($results as $row) {
-            echo '<tr>';
-            echo '<td>' . esc_html($row->id) . '</td>';
-            echo '<td>' . esc_html($row->name) . '</td>';
-            echo '<td>' . esc_html($row->email) . '</td>';
-            echo '<td>';
-            echo '<a href="?page=wp-database-crud-operations&action=edit&id=' . esc_attr($row->id) . '">' . esc_html__('Edit', 'wp-database-crud-operations') . '</a>';
-            echo ' | ';
-            echo '<a href="?page=wp-database-crud-operations&action=delete&id=' . esc_attr($row->id) . '" onclick="return confirm(\'Are you sure you want to delete this item?\');">' . esc_html__('Delete', 'wp-database-crud-operations') . '</a>';
-            echo '</td>';
-            echo '</tr>';
-        }
-        echo '</tbody>';
-        echo '</table>';
+        echo '<a href="' . admin_url('admin.php?page=wp-database-crud-operations-add') . '" class="button button-primary">' . esc_html__('Add New Data', 'wp-database-crud-operations') . '</a>';
         echo '</div>';
+
+        // Output admin page
+        include_once(plugin_dir_path(__FILE__) . 'views/template-list.php');
+    }
+    /**
+     * Add new data
+     */
+    function add_new_data_page()
+    {
+        $this->handle_actions(); // Handle form submissions
+        // Display add new data form
+        $this->display_add_new_form();
     }
 
     /**
      * Display add new data form
      */
-    public function display_add_new_form()
+    function display_add_new_form()
     {
-        echo '<h3>' . esc_html__('Add New Data', 'wp-database-crud-operations') . '</h3>';
-        echo '<form method="post">';
-        echo '<input type="hidden" name="action" value="add">';
-        echo '<label for="name">' . esc_html__('Name:', 'wp-database-crud-operations') . '</label>';
-        echo '<input type="text" name="name" id="name" required>';
-        echo '<label for="email">' . esc_html__('Email:', 'wp-database-crud-operations') . '</label>';
-        echo '<input type="email" name="email" id="email" required>';
-        echo '<input type="submit" value="' . esc_attr__('Add', 'wp-database-crud-operations') . '">';
-        echo '</form>';
+        include_once(plugin_dir_path(__FILE__) . 'views/template-add.php');
     }
 
     /**
      * Handle form submissions
      */
-    public function handle_actions()
+    function handle_actions()
     {
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {
@@ -139,7 +126,7 @@ class WP_Database_CRUD_Operations
     /**
      * Add new data to the database
      */
-    public function add_data()
+    function add_data()
     {
         if (isset($_POST['name']) && isset($_POST['email'])) {
             global $wpdb;
@@ -152,37 +139,28 @@ class WP_Database_CRUD_Operations
     /**
      * Delete data from the database
      */
-    public function delete_data($id)
+    function delete_data($id)
     {
         global $wpdb;
         $wpdb->delete($this->table_name, array('id' => $id));
     }
-    
+
     /**
      * Display edit data form
      */
-    public function display_edit_form($id)
+    function display_edit_form($id)
     {
         global $wpdb;
         $data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$this->table_name} WHERE id = %d", $id));
         if ($data) {
-            echo '<h3>' . esc_html__('Edit Data', 'wp-database-crud-operations') . '</h3>';
-            echo '<form method="post">';
-            echo '<input type="hidden" name="action" value="update">';
-            echo '<input type="hidden" name="id" value="' . esc_attr($data->id) . '">';
-            echo '<label for="name">' . esc_html__('Name:', 'wp-database-crud-operations') . '</label>';
-            echo '<input type="text" name="name" id="name" value="' . esc_attr($data->name) . '" required>';
-            echo '<label for="email">' . esc_html__('Email:', 'wp-database-crud-operations') . '</label>';
-            echo '<input type="email" name="email" id="email" value="' . esc_attr($data->email) . '" required>';
-            echo '<input type="submit" value="' . esc_attr__('Update', 'wp-database-crud-operations') . '">';
-            echo '</form>';
+            include_once(plugin_dir_path(__FILE__) . 'views/template-edit.php');
         }
     }
 
     /**
      * Update data in the database
      */
-    public function update_data()
+    function update_data()
     {
         if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email'])) {
             global $wpdb;
@@ -196,7 +174,7 @@ class WP_Database_CRUD_Operations
     /**
      * Create database tables
      */
-    public function create_database_tables()
+    function create_database_tables()
     {
         global $wpdb;
         // Charset collate for creating tables

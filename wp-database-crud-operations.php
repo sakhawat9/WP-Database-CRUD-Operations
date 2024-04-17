@@ -19,7 +19,16 @@ if (!defined('ABSPATH')) {
 }
 
 // Include the autoloader
-require_once plugin_dir_path(__FILE__) . 'autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
+
+class WP_Database_CRUD_Operations
+{
+    public function __construct() {
+        if(is_admin()) {
+            new Fixolab\WpDatabaseCrudOperations\Admin();
+        }
+    }
+}
 
 // Instantiate the main plugin class
 new WP_Database_CRUD_Operations();
