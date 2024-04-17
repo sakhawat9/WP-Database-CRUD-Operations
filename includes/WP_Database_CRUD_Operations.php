@@ -7,7 +7,7 @@ class WP_Database_CRUD_Operations
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         global $wpdb;
         // Set table name with prefix
@@ -29,7 +29,7 @@ class WP_Database_CRUD_Operations
     /**
      * Add admin menu
      */
-    function add_admin_menu()
+    public function add_admin_menu()
     {
         add_menu_page(
             'WP Database CRUD Operations',
@@ -44,7 +44,7 @@ class WP_Database_CRUD_Operations
     /**
      * Admin page content
      */
-    function admin_page()
+    public function admin_page()
     {
         global $wpdb;
         $this->handle_actions(); // Handle form submissions
@@ -91,7 +91,7 @@ class WP_Database_CRUD_Operations
     /**
      * Display add new data form
      */
-    function display_add_new_form()
+    public function display_add_new_form()
     {
         echo '<h3>' . esc_html__('Add New Data', 'wp-database-crud-operations') . '</h3>';
         echo '<form method="post">';
@@ -107,7 +107,7 @@ class WP_Database_CRUD_Operations
     /**
      * Handle form submissions
      */
-    function handle_actions()
+    public function handle_actions()
     {
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {
@@ -139,7 +139,7 @@ class WP_Database_CRUD_Operations
     /**
      * Add new data to the database
      */
-    function add_data()
+    public function add_data()
     {
         if (isset($_POST['name']) && isset($_POST['email'])) {
             global $wpdb;
@@ -152,7 +152,7 @@ class WP_Database_CRUD_Operations
     /**
      * Delete data from the database
      */
-    function delete_data($id)
+    public function delete_data($id)
     {
         global $wpdb;
         $wpdb->delete($this->table_name, array('id' => $id));
@@ -161,7 +161,7 @@ class WP_Database_CRUD_Operations
     /**
      * Display edit data form
      */
-    function display_edit_form($id)
+    public function display_edit_form($id)
     {
         global $wpdb;
         $data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$this->table_name} WHERE id = %d", $id));
@@ -182,7 +182,7 @@ class WP_Database_CRUD_Operations
     /**
      * Update data in the database
      */
-    function update_data()
+    public function update_data()
     {
         if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email'])) {
             global $wpdb;
@@ -196,7 +196,7 @@ class WP_Database_CRUD_Operations
     /**
      * Create database tables
      */
-    function create_database_tables()
+    public function create_database_tables()
     {
         global $wpdb;
         // Charset collate for creating tables
