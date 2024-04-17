@@ -156,15 +156,6 @@ class WP_Database_CRUD_Operations
     }
 
     /**
-     * Delete data from the database
-     */
-    function delete_data($id)
-    {
-        global $wpdb;
-        $wpdb->delete($this->table_name, array('id' => $id));
-    }
-
-    /**
      * Add new data to the database
      */
     function add_data()
@@ -177,6 +168,15 @@ class WP_Database_CRUD_Operations
         }
     }
 
+    /**
+     * Delete data from the database
+     */
+    function delete_data($id)
+    {
+        global $wpdb;
+        $wpdb->delete($this->table_name, array('id' => $id));
+    }
+    
     /**
      * Display edit data form
      */
