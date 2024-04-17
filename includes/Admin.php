@@ -10,7 +10,7 @@ class Admin
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         global $wpdb;
         // Set table name with prefix
@@ -32,12 +32,12 @@ class Admin
     /**
      * Add admin menu
      */
-    function add_admin_menu()
+    public function add_admin_menu()
     {
         add_menu_page(
-            'WP Database CRUD Operations',
-            'WP Database CRUD Operations',
-            'manage_options',
+            esc_html__('WP Database CRUD Operations', 'wp-database-crud-operations'), // page title
+            esc_html__('WP Database CRUD Operations', 'wp-database-crud-operations'), // menu title
+            'manage_options', // capability
             'wp-database-crud-operations',
             [$this, 'admin_page'],
             'dashicons-admin-generic'
@@ -46,8 +46,8 @@ class Admin
         // Add sub-menu for adding new data
         add_submenu_page(
             'wp-database-crud-operations', // parent slug
-            'Add New Data', // page title
-            'Add New Data', // menu title
+            esc_html__('Add New Data', 'wp-database-crud-operations'), // page title
+            esc_html__('Add New Data', 'wp-database-crud-operations'), // menu title
             'manage_options', // capability
             'wp-database-crud-operations-add', // menu slug
             [$this, 'add_new_data_page'] // callback function to display the page content
@@ -57,7 +57,7 @@ class Admin
     /**
      * Admin page content
      */
-    function admin_page()
+    public function admin_page()
     {
         global $wpdb;
         $this->handle_actions(); // Handle form submissions
@@ -73,12 +73,14 @@ class Admin
         // Output admin page
         include_once(plugin_dir_path(__FILE__) . 'views/template-list.php');
     }
+
     /**
      * Add new data
      */
-    function add_new_data_page()
+    public function add_new_data_page()
     {
         $this->handle_actions(); // Handle form submissions
+
         // Display add new data form
         $this->display_add_new_form();
     }
@@ -86,7 +88,7 @@ class Admin
     /**
      * Display add new data form
      */
-    function display_add_new_form()
+    public function display_add_new_form()
     {
         include_once(plugin_dir_path(__FILE__) . 'views/template-add.php');
     }
@@ -94,7 +96,7 @@ class Admin
     /**
      * Handle form submissions
      */
-    function handle_actions()
+    public function handle_actions()
     {
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {
@@ -110,6 +112,13 @@ class Admin
         }
 
         if (isset($_POST['action'])) {
+            // Verify nonce
+            $nonce = isset($_POST['add_new_data_nonce']) ? $_POST['add_new_data_nonce'] : '';
+            if (!wp_verify_nonce($nonce, 'add_new_data_action')) {
+                // Nonce verification failed, handle the error
+                wp_die('Nonce verification failed');
+            }
+
             switch ($_POST['action']) {
                 case 'add':
                     $this->add_data();
@@ -126,7 +135,7 @@ class Admin
     /**
      * Add new data to the database
      */
-    function add_data()
+    public function add_data()
     {
         if (isset($_POST['name']) && isset($_POST['email'])) {
             global $wpdb;
@@ -139,7 +148,7 @@ class Admin
     /**
      * Delete data from the database
      */
-    function delete_data($id)
+    public function delete_data($id)
     {
         global $wpdb;
         $wpdb->delete($this->table_name, array('id' => $id));
@@ -148,7 +157,7 @@ class Admin
     /**
      * Display edit data form
      */
-    function display_edit_form($id)
+    public function display_edit_form($id)
     {
         global $wpdb;
         $data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$this->table_name} WHERE id = %d", $id));
@@ -160,7 +169,7 @@ class Admin
     /**
      * Update data in the database
      */
-    function update_data()
+    public function update_data()
     {
         if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email'])) {
             global $wpdb;
@@ -174,7 +183,7 @@ class Admin
     /**
      * Create database tables
      */
-    function create_database_tables()
+    public function create_database_tables()
     {
         global $wpdb;
         // Charset collate for creating tables

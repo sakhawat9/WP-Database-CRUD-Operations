@@ -1,5 +1,6 @@
 <h3><?php echo esc_html__('Add New Data', 'wp-database-crud-operations'); ?></h3>
-<form method="post">
+<form method="post">.
+    <?php wp_nonce_field('add_new_data_action', 'add_new_data_nonce'); ?>
     <input type="hidden" name="action" value="add">
     <label for="name"><?php echo esc_html__('Name:', 'wp-database-crud-operations'); ?></label>
     <input type="text" name="name" id="name" required>
