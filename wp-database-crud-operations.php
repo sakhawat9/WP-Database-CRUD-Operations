@@ -18,17 +18,89 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Define constants for plugin directory path.
+if (!defined('WDCO_DIR_URL')) {
+    define('WDCO_DIR_URL', plugin_dir_url(__FILE__));
+}
+
 // Include the autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
+/**
+ * The main plugin class
+ */
 class WP_Database_CRUD_Operations
 {
-    public function __construct() {
-        if(is_admin()) {
+    /**
+     * Plugin version
+     *
+     * @var string
+     */
+    const version = '1.0';
+
+    /**
+     * Class construcotr
+     */
+    public function __construct()
+    {
+        $this->define_constants();
+        // Register activation hook
+        register_activation_hook(__FILE__, [$this, 'wdco_activate']);
+
+        if (is_admin()) {
             new Fixolab\WpDatabaseCrudOperations\Admin();
         }
     }
+
+    /**
+     * Define the required plugin constants
+     *
+     * @return void
+     */
+    public function define_constants()
+    {
+        define('WDCO_VERSION', self::version);
+        define('WDCO_FILE', __FILE__);
+        define('WDCO_PATH', __DIR__);
+    }
+
+    /**
+     * Initializes a singleton instance
+     *
+     * @return \WP_Database_CRUD_Operations
+     */
+    public static function init()
+    {
+        static $instance = false;
+
+        if (!$instance) {
+            $instance = new self();
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Do stuff upon plugin activation
+     *
+     * @return void
+     */
+    public function wdco_activate()
+    {
+        $installer = new Fixolab\WpDatabaseCrudOperations\Installer();
+        $installer->run();
+    }
 }
 
-// Instantiate the main plugin class
-new WP_Database_CRUD_Operations();
+/**
+ * Initializes the main plugin
+ *
+ * @return \WP_Database_CRUD_Operations
+ */
+function wedevs_academy()
+{
+    return WP_Database_CRUD_Operations::init();
+}
+
+// kick-off the plugin
+wedevs_academy();
