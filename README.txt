@@ -11,7 +11,7 @@ Displays the WordPress database CRUD operations.
 
 == Description ==
 
-The WP Database CRUD Operations plugin enables you to perform Create, Read, Update, and Delete (CRUD) operations on your WordPress database directly from the admin dashboard. Easily manage your data with intuitive forms and streamlined actions, all within the familiar WordPress interface.
+The WP Database CRUD Operations plugin enables you to perform Create, Read, Update, and Delete (CRUD) operations on the WordPress database directly from the admin dashboard. Easily manage data with intuitive forms and streamlined actions, all within the familiar WordPress interface.
 
 == Installation ==
 
@@ -24,6 +24,8 @@ e.g.
 
 Plugin features:
 
-- Add, view, edit, and delete database records effortlessly within the WordPress admin panel.
-- 
+- Add user information
+- Edit existing user information
+- Delete existing user information
+- View all information in admin dashboard.
 - Fully translatable.

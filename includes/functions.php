@@ -20,8 +20,9 @@ function add_data()
         $email = sanitize_email($_POST['email']);
         $wpdb->insert($wpdb->prefix . 'custom_table', array('name' => $name, 'email' => $email));
 
-        $redirected_to = admin_url('admin.php?page=wp-database-crud-operations&inserted=true');
-        wp_redirect($redirected_to);
+        // Add a parameter to the URL to indicate success
+        $redirected_to = add_query_arg( array( 'inserted' => 'true' ), admin_url('admin.php?page=wp-database-crud-operations') );
+        wp_redirect($redirected_to);        
         exit;
     }
 }
@@ -39,7 +40,7 @@ function update_data()
         $wpdb->update($wpdb->prefix . 'custom_table', array('name' => $name, 'email' => $email), array('id' => $id));
 
         // Redirect after successful update
-        $redirected_to = admin_url('admin.php?page=wp-database-crud-operations&updated=true');
+        $redirected_to = add_query_arg( array( 'updated' => 'true' ), admin_url('admin.php?page=wp-database-crud-operations') );
         wp_redirect($redirected_to);
         exit;
     }

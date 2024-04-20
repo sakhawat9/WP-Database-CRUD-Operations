@@ -26,8 +26,21 @@ class All_Data
     {
         global $wpdb;
 
-        // // Get data from database
-        $results = $wpdb->get_results("SELECT * FROM {$this->table_name}");
+        // Pagination parameters
+        $per_page = 10; // Number of items per page
+        $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1; // Current page number
+
+        // Calculate offset
+        $offset = ($current_page - 1) * $per_page;
+
+        // Get total count of items
+        $total_items = $wpdb->get_var("SELECT COUNT(*) FROM {$this->table_name}");
+
+        // Calculate total number of pages
+        $total_pages = ceil($total_items / $per_page);
+
+        // Get data from database with pagination
+        $results = $wpdb->get_results("SELECT * FROM {$this->table_name} LIMIT $per_page OFFSET $offset");
 
         $action = isset($_GET['action']) ? $_GET['action'] : 'list';
         $id = isset($_GET['id']) ? $_GET['id'] : 0;
@@ -50,6 +63,30 @@ class All_Data
 
         if (file_exists($template)) {
             include $template;
+        }
+        if ($action == 'list') {
+            // Output pagination links
+            echo '<div class="wrap"><div class="tablenav bottom">';
+            echo '<div class="tablenav-pages"><span class="displaying-num">' . $total_items . ' items</span>';
+            echo '<span class="pagination-links">';
+            if ($total_pages > 1) {
+                // Previous page link
+                echo '<a class="prev-page button ';
+                echo ($current_page == 1) ? 'disabled' : '';
+                echo '" href="' . esc_url(add_query_arg('paged', max(1, $current_page - 1))) . '">&laquo;</a>';
+
+                // Current page
+                echo '<span class="tablenav-paging-text">';
+                echo $current_page . ' of <span class="total-pages">' . $total_pages . '</span>';
+                echo '</span>';
+
+                // Next page link
+                echo '<a class="next-page button ';
+                echo ($current_page == $total_pages) ? 'disabled' : '';
+                echo '" href="' . esc_url(add_query_arg('paged', min($total_pages, $current_page + 1))) . '">&raquo;</a>';
+
+                echo '</span></div></div></div>';
+            }
         }
     }
 
