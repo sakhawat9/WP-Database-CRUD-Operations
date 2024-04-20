@@ -64,30 +64,9 @@ class All_Data
         if (file_exists($template)) {
             include $template;
         }
-        if ($action == 'list') {
-            // Output pagination links
-            echo '<div class="wrap"><div class="tablenav bottom">';
-            echo '<div class="tablenav-pages"><span class="displaying-num">' . $total_items . ' items</span>';
-            echo '<span class="pagination-links">';
-            if ($total_pages > 1) {
-                // Previous page link
-                echo '<a class="prev-page button ';
-                echo ($current_page == 1) ? 'disabled' : '';
-                echo '" href="' . esc_url(add_query_arg('paged', max(1, $current_page - 1))) . '">&laquo;</a>';
 
-                // Current page
-                echo '<span class="tablenav-paging-text">';
-                echo $current_page . ' of <span class="total-pages">' . $total_pages . '</span>';
-                echo '</span>';
-
-                // Next page link
-                echo '<a class="next-page button ';
-                echo ($current_page == $total_pages) ? 'disabled' : '';
-                echo '" href="' . esc_url(add_query_arg('paged', min($total_pages, $current_page + 1))) . '">&raquo;</a>';
-
-                echo '</span></div></div></div>';
-            }
-        }
+        // Output pagination links
+        Pagination::display_pagination_links($total_items, $per_page, $current_page);
     }
 
     /**

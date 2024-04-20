@@ -24,8 +24,9 @@ e.g.
 
 Plugin features:
 
-- Add user information
-- Edit existing user information
-- Delete existing user information
+- Add new user information.
+- Edit the existing information.
+- Delete existing user information.
 - View all information in admin dashboard.
-- Fully translatable.
+- Sortable admin dashboard by ID user name, and user email.
+- All text strings used in the plugin are translatable to support internationalization.
