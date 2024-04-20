@@ -11,7 +11,17 @@ function display_edit_form( $id ) {
  * Add new data to the database
  */
 function add_data() {
+
 	if ( isset( $_POST['name'] ) && isset( $_POST['email'] ) ) {
+		$nonce = isset( $_POST['add_new_data_nonce'] ) ? $_POST['add_new_data_nonce'] : '';
+		if ( ! wp_verify_nonce( $nonce, 'add_new_data_action' ) ) {
+			// Nonce verification failed, handle the error.
+			wp_die( 'Nonce verification failed' );
+		}
+		if ( ! current_user_can( 'manage_options' ) ) {
+			// Current user failed, handle the error.
+			wp_die( 'Are you cheating' );
+		}
 		global $wpdb;
 		$name  = sanitize_text_field( $_POST['name'] );
 		$email = sanitize_email( $_POST['email'] );
@@ -35,6 +45,17 @@ function add_data() {
  */
 function update_data() {
 	if ( isset( $_POST['id'] ) && isset( $_POST['name'] ) && isset( $_POST['email'] ) ) {
+
+		$nonce = isset( $_POST['add_new_data_nonce'] ) ? $_POST['add_new_data_nonce'] : '';
+		if ( ! wp_verify_nonce( $nonce, 'add_new_data_action' ) ) {
+			// Nonce verification failed, handle the error.
+			wp_die( 'Nonce verification failed' );
+		}
+		if ( ! current_user_can( 'manage_options' ) ) {
+			// Current user failed, handle the error.
+			wp_die( 'Are you cheating' );
+		}
+
 		global $wpdb;
 		$id    = intval( $_POST['id'] );
 		$name  = sanitize_text_field( $_POST['name'] );

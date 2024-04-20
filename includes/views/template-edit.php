@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <h2 class="font-bold"><?php echo esc_html__( 'Edit Data', 'wp-database-crud-operations' ); ?></h2>
 <form class="w-2/4" method="post">
-	<?php wp_nonce_field( 'add_new_data_action', 'add_new_data_nonce' ); ?>
+<?php wp_nonce_field( 'add_new_data_action', 'add_new_data_nonce' ); ?>
 	<input type="hidden" name="action" value="update">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $data->id ); ?>">
 	<table class="form-table">

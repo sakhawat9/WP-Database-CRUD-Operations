@@ -1,11 +1,15 @@
 <?php
+
 /**
  * The admin class
+ *
+ * @package wp-database-crud-operations
  */
 
 namespace Fixolab\WpDatabaseCrudOperations;
 
 class Admin {
+
 
 	/**
 	 * Constructor
@@ -30,10 +34,12 @@ class Admin {
 	 * Display update success message
 	 */
 	public function display_update_success_message() {
-		if ( isset( $_GET['updated'] ) && $_GET['updated'] === 'true' ) {
+		if ( isset( $_GET['updated'] ) && 'true' === $_GET['updated'] ) {
+
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Data updated successfully!', 'wp-database-crud-operations' ) . '</p></div>';
 		}
 	}
+
 
 	/**
 	 * Dispatch and bind actions
