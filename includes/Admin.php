@@ -2,6 +2,9 @@
 
 namespace Fixolab\WpDatabaseCrudOperations;
 
+/**
+ * The admin class
+ */
 class Admin
 {
 
@@ -25,6 +28,5 @@ class Admin
     public function dispatch_actions($allData)
     {
         add_action('admin_init', [$allData, 'form_handler']);
-        // add_action( 'admin_post_wdco_delete_data', [ $allData, 'delete_data' ] );
     }
 }

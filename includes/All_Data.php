@@ -3,18 +3,25 @@
 namespace Fixolab\WpDatabaseCrudOperations;
 
 /**
- * The Menu handler
+ * The All Data Class
  */
 
 class All_Data
 {
     private $table_name;
+    /**
+     * Constructor for the All_Data class.
+     * Initializes the class by setting the table name.
+     */
     public function __construct()
     {
         global $wpdb;
         $this->table_name = $wpdb->prefix . 'custom_table';
     }
 
+    /**
+     * Handles different actions and includes corresponding templates.
+     */
     public function plugin_page()
     {
         global $wpdb;
@@ -45,6 +52,10 @@ class All_Data
             include $template;
         }
     }
+
+    /**
+     * Handles form submissions and performs CRUD operations.
+     */
     public function form_handler()
     {
         if (isset($_GET['action'])) {

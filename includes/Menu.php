@@ -5,7 +5,6 @@ namespace Fixolab\WpDatabaseCrudOperations;
 /**
  * The Menu handler
  */
-
 class Menu
 {
     private $table_name;
