@@ -18,11 +18,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Define constants for plugin directory path.
-if (!defined('WDCO_DIR_URL')) {
-    define('WDCO_DIR_URL', plugin_dir_url(__FILE__));
-}
-
 // Include the autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -60,8 +55,6 @@ class WP_Database_CRUD_Operations
     public function define_constants()
     {
         define('WDCO_VERSION', self::version);
-        define('WDCO_FILE', __FILE__);
-        define('WDCO_PATH', __DIR__);
     }
 
     /**
@@ -78,17 +71,6 @@ class WP_Database_CRUD_Operations
         }
 
         return $instance;
-    }
-
-    /**
-     * Do stuff upon plugin activation
-     *
-     * @return void
-     */
-    public function wdco_activate()
-    {
-        $installer = new Fixolab\WpDatabaseCrudOperations\Installer();
-        
     }
 }
 
