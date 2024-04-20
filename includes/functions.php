@@ -13,8 +13,8 @@ function display_edit_form( $id ) {
 function add_data() {
 
 	if ( isset( $_POST['name'] ) && isset( $_POST['email'] ) ) {
-		$nonce = isset( $_POST['add_new_data_nonce'] ) ? $_POST['add_new_data_nonce'] : '';
-		if ( ! wp_verify_nonce( $nonce, 'add_new_data_action' ) ) {
+		$nonce = isset( $_POST['wdco_data_nonce'] ) ? $_POST['wdco_data_nonce'] : '';
+		if ( ! wp_verify_nonce( $nonce, 'wdco_data_action' ) ) {
 			// Nonce verification failed, handle the error.
 			wp_die( 'Nonce verification failed' );
 		}
@@ -46,8 +46,8 @@ function add_data() {
 function update_data() {
 	if ( isset( $_POST['id'] ) && isset( $_POST['name'] ) && isset( $_POST['email'] ) ) {
 
-		$nonce = isset( $_POST['add_new_data_nonce'] ) ? $_POST['add_new_data_nonce'] : '';
-		if ( ! wp_verify_nonce( $nonce, 'add_new_data_action' ) ) {
+		$nonce = isset( $_POST['wdco_data_nonce'] ) ? $_POST['wdco_data_nonce'] : '';
+		if ( ! wp_verify_nonce( $nonce, 'wdco_data_action' ) ) {
 			// Nonce verification failed, handle the error.
 			wp_die( 'Nonce verification failed' );
 		}

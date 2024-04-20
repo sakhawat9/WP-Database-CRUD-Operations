@@ -3,31 +3,23 @@
 namespace Fixolab\WpDatabaseCrudOperations;
 
 /**
- * Installer class
+ * Installer class.
  */
 class Installer {
 
-	/**
-	 * Run the installer
-	 *
-	 * @return void
-	 */
-	public function run() {
-		echo 'Hello world!';
-	}
 	private $table_name;
 
 	public function __construct() {
 		global $wpdb;
-		// Set table name with prefix
+		// Set table name with prefix.
 		$this->table_name = $wpdb->prefix . 'wdco_table';
 	}
 
 	/**
-	 * Add time and version on DB
+	 * Add time and version on DB.
 	 */
 	public function add_version() {
-		// Check and update database version
+		// Check and update database version.
 		$dbv = get_option( 'dbv' );
 		if ( $dbv ) {
 			update_option( 'dbv', $dbv );
@@ -37,13 +29,13 @@ class Installer {
 	}
 
 	/**
-	 * Create necessary database tables
+	 * Create necessary database tables.
 	 *
 	 * @return void
 	 */
 	public function create_tables() {
 		global $wpdb;
-		// Charset collate for creating tables
+		// Charset collate for creating tables.
 		$charset_collate = $wpdb->get_charset_collate();
 		// SQL query to create table
 		$sql = "CREATE TABLE $this->table_name (
@@ -53,9 +45,9 @@ class Installer {
             PRIMARY KEY (id)
         ) $charset_collate;";
 
-		// Include upgrade.php for dbDelta function
+		// Include upgrade.php for dbDelta function.
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		// Execute SQL query to create table
+		// Execute SQL query to create table.
 		dbDelta( $sql );
 	}
 }

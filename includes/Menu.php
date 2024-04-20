@@ -3,7 +3,7 @@
 namespace Fixolab\WpDatabaseCrudOperations;
 
 /**
- * The Menu handler
+ * The Menu handler.
  */
 class Menu {
 
@@ -12,43 +12,43 @@ class Menu {
 
 	function __construct( $all_data ) {
 		global $wpdb;
-		// Set table name with prefix
+		// Set table name with prefix.
 		$this->table_name = $wpdb->prefix . 'wdco_table';
 
-		$this->allData = $all_data;
+		$this->all_data = $all_data;
 		// Create admin menu
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 	}
 	/**
-	 * Add admin menu
+	 * Add admin menu.
 	 */
 	public function add_admin_menu() {
 		add_menu_page(
-			esc_html__( 'WP Database CRUD Operations', 'wp-database-crud-operations' ), // page title
-			esc_html__( 'WP Database CRUD Operations', 'wp-database-crud-operations' ), // menu title
-			'manage_options', // capability
+			esc_html__( 'WP Database CRUD Operations', 'wp-database-crud-operations' ),
+			esc_html__( 'WP Database CRUD Operations', 'wp-database-crud-operations' ),
+			'manage_options',
 			'wp-database-crud-operations',
-			array( $this->allData, 'plugin_page' ),
+			array( $this->all_data, 'plugin_page' ),
 			'dashicons-database'
 		);
 
-		// Add sub-menu for adding new data
+		// Add sub-menu for adding new data.
 		add_submenu_page(
-			'wp-database-crud-operations', // parent slug
-			esc_html__( 'All Data', 'wp-database-crud-operations' ), // page title
-			esc_html__( 'All Data', 'wp-database-crud-operations' ), // menu title
-			'manage_options', // capability
-			'wp-database-crud-operations', // menu slug
-			array( $this->allData, 'plugin_page' ) // callback function to display the page content
+			'wp-database-crud-operations',
+			esc_html__( 'All Data', 'wp-database-crud-operations' ),
+			esc_html__( 'All Data', 'wp-database-crud-operations' ),
+			'manage_options',
+			'wp-database-crud-operations',
+			array( $this->all_data, 'plugin_page' )
 		);
-		// Add sub-menu for adding new data
+		// Add sub-menu for adding new data.
 		add_submenu_page(
-			'wp-database-crud-operations', // parent slug
-			esc_html__( 'Add New Data', 'wp-database-crud-operations' ), // page title
-			esc_html__( 'Add New Data', 'wp-database-crud-operations' ), // menu title
-			'manage_options', // capability
-			'wp-database-crud-operations&action=new', // menu slug
-			array( $this->allData, 'add_new_data_page' ) // callback function to display the page content
+			'wp-database-crud-operations',
+			esc_html__( 'Add New Data', 'wp-database-crud-operations' ),
+			esc_html__( 'Add New Data', 'wp-database-crud-operations' ),
+			'manage_options',
+			'wp-database-crud-operations&action=new',
+			array( $this->all_data, 'add_new_data_page' )
 		);
 	}
 }

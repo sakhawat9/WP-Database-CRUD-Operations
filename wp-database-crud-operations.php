@@ -88,7 +88,7 @@ class WP_Database_CRUD_Operations
     public function wdco_activate()
     {
         $installer = new Fixolab\WpDatabaseCrudOperations\Installer();
-        $installer->run();
+        
     }
 }
 
@@ -97,10 +97,10 @@ class WP_Database_CRUD_Operations
  *
  * @return \WP_Database_CRUD_Operations
  */
-function wedevs_academy()
+function wdco_crud_operations()
 {
     return WP_Database_CRUD_Operations::init();
 }
 
 // kick-off the plugin
-wedevs_academy();
+wdco_crud_operations();

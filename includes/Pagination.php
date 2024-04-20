@@ -19,12 +19,12 @@ class Pagination {
 
 		// Output pagination links
 		echo '<div class="wrap"><div class="tablenav bottom">';
-		echo '<div class="tablenav-pages"><span class="displaying-num">' . esc_html( $total_items ) . ' ' . esc_html( 'items', 'wp-database-crud-operations' ) . '</span>';
+		echo '<div class="tablenav-pages"><span class="displaying-num">' . esc_html( $total_items ) . ' ' . esc_html__( 'items', 'wp-database-crud-operations' ) . '</span>';
 		echo '<span class="pagination-links">';
 		if ( $total_pages > 1 ) {
 			// Previous page link
 			echo '<a class="prev-page button ';
-			echo ( $current_page == 1 ) ? 'disabled' : '';
+			echo ( $current_page === 1 ) ? 'disabled' : '';
 			echo '" href="' . esc_url( add_query_arg( 'paged', max( 1, $current_page - 1 ) ) ) . '">&laquo;</a>';
 
 			// Current page
@@ -34,7 +34,7 @@ class Pagination {
 
 			// Next page link
 			echo '<a class="next-page button ';
-			echo ( $current_page == $total_pages ) ? 'disabled' : '';
+			echo ( $current_page === $total_pages ) ? 'disabled' : '';
 			echo '" href="' . esc_url( add_query_arg( 'paged', min( $total_pages, $current_page + 1 ) ) ) . '">&raquo;</a>';
 
 			echo '</span></div></div></div>';
