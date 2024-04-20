@@ -64,9 +64,9 @@ class All_Data {
 		}
 
 		// Output pagination links.
-		if($action === 'list') {
-            Pagination::display_pagination_links( $total_items, $per_page, $current_page );
-        }
+		if ( $action === 'list' ) {
+			Pagination::display_pagination_links( $total_items, $per_page, $current_page );
+		}
 	}
 
 	/**

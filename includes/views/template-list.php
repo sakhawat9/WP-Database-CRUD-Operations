@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$wdco_orderby = isset( $_GET['orderby'] ) ? wp_unslash( $_GET['orderby'] ) : 'id';
 	// Determine the order (ascending or descending).
 	$order = isset( $_GET['order'] ) ? $_GET['order'] : 'asc';
-    
+
 	// Define sorting icons.
 	$asc_icon  = '<span class="dashicons dashicons-arrow-up"></span>';
 	$desc_icon = '<span class="dashicons dashicons-arrow-down"></span>';

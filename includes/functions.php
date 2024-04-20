@@ -2,7 +2,6 @@
 /**
  * Display edit data form
  */
-
 function display_edit_form( $id ) {
 	global $wpdb;
 	return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}custom_table WHERE id = %d", $id ) );
